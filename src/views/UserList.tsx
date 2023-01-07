@@ -1,7 +1,9 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { v4 } from 'uuid';
+//@ts-ignore
+import { v4 as uuid } from 'uuid';
+import { data } from '../data/users';
 
 export interface UserInterface {
     id: string,
@@ -13,32 +15,7 @@ export interface UserInterface {
 
 type FormActionType = 'NEW' | 'EDIT';
 
-export const data = [
-    {
-        id: 'dca09566-8ec0-4d50-9c66-c6fcc8a92757',
-        name: 'User1',
-        age: 30,
-        email: 'user1@gmail.com',
-        phone: '+(1) 234-56789'
-    },
-    {
-        id: 'dca09566-8ec0-4d50-9c66-c6ss78992757',
-        name: 'User2',
-        age: 33,
-        email: 'user2@gmail.com',
-        phone: '+(1) 789-58989'
-    },
-    {
-        id: 'dca09226-8ec0-4d50-9c66-c6fcc8a92757',
-        name: 'User3',
-        age: 34,
-        email: 'user3@gyahoo.com',
-        phone: '+(1) 234-56987'
-    }
-];
-
 export const UserList = () => {
-    console.log("RENDER****");
     const [users, setUsers] = useState<UserInterface[]>(data);
 
     const [currentUser, setCurrentUser] = useState<UserInterface>(
@@ -57,7 +34,7 @@ export const UserList = () => {
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
         if (currentUser.id === '' || currentUser.id === undefined) {
-            setCurrentUser(currentUser => ({ ...currentUser, id: v4() }));
+            setCurrentUser(currentUser => ({ ...currentUser, id: uuid() }));
             setUsers([...users, currentUser]);
             setFormVisible(false);
         } else {
@@ -66,10 +43,7 @@ export const UserList = () => {
             users.splice(editIndex, 1, currentUser);
             setUsers(users);
             setFormVisible(false);
-
         }
-
-        console.log(currentUser);
     }
 
     function handleClick(action: string, id?: string) {
@@ -95,6 +69,7 @@ export const UserList = () => {
                 setCurrentUser({
                     id: '',
                     name: '',
+                    //@ts-ignore
                     age: '',
                     email: '',
                     phone: ''
@@ -169,7 +144,6 @@ export const UserList = () => {
                                         {/* <td>{user.email}</td>
                                         <td>{user.phone}</td> */}
                                         <td className='text-end'>
-                                            {/* <Button onClick={() => handleClick('SHOW', user.id)} variant="info" size="sm">Mostrar</Button> */}
                                             <Link to={'/user/' + user.id} className="btn btn-sm btn-info">Mostrar</Link>
                                             <Button onClick={() => handleClick('EDIT', user.id)} variant="warning" size="sm" className="ms-1">Editar</Button>
                                             <Button onClick={() => handleClick('DELETE', user.id)} variant="danger" size="sm" className="ms-1">Eliminar</Button>
@@ -182,7 +156,7 @@ export const UserList = () => {
                     <div className={formVisible ? 'mx-5 my-4 border border-secondary border-2 rounded p-2 mb-5 bg-secondary bg-opacity-25 ' : 'd-none'}>
                         <div className="row ">
                             <div className="">
-                                <h3 className="text-center">Agregar Usuario</h3>
+                                <h3 className="text-center">{ formAction === 'NEW' ? 'Agregar ' : 'Editar '} Usuario</h3>
                                 <Form onSubmit={(e) => handleSubmit(e)}>
                                     <Form.Group className="mb-3" controlId="formName">
                                         <Form.Label>Name</Form.Label>

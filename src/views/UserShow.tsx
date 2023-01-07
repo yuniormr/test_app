@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { UserDetails } from '../components/UserDetails';
 
-import { data } from './UserList';
+import { data } from '../data/users';
 
 
 export const UserShow = () => {

@@ -1,5 +1,4 @@
-import React from 'react'
-import { Button, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 export const Login = () => {
@@ -15,7 +14,6 @@ export const Login = () => {
                         <div className="text-center">
                         <Link to="/users" className='btn btn-primary'>Entrar</Link>
                         </div>
-                        
                     </Card.Body>
                 </Card>
             </div>
