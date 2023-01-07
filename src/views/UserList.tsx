@@ -35,12 +35,13 @@ export const UserList = () => {
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
         if (currentUser.id === '' || currentUser.id === undefined) {
-            setCurrentUser(currentUser => ({ ...currentUser, id: uuid() }));
+            currentUser.id = uuid();
             setUsers([...users, currentUser]);
             setFormVisible(false);
+            console.log(currentUser);
+            
         } else {
             let editIndex = users.findIndex(user => (user.id === currentUser.id));
-
             users.splice(editIndex, 1, currentUser);
             setUsers(users);
             setFormVisible(false);
@@ -64,8 +65,8 @@ export const UserList = () => {
                 }));
                 setFormAction('EDIT');
                 setFormVisible(true);
-
                 break;
+
             case 'CREATE':
                 setCurrentUser({
                     id: '',
