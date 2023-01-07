@@ -1,14 +1,15 @@
 import React, { FormEvent, useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-//@ts-ignore
 import { v4 as uuid } from 'uuid';
 import { data } from '../data/users';
+
+import { BsFillPersonPlusFill, BsFillEyeFill, BsFillTrashFill, BsPencilFill, BsFillXCircleFill, BsCheckCircleFill } from 'react-icons/all';
 
 export interface UserInterface {
     id: string,
     name: string,
-    age: number,
+    age: string,
     email: string,
     phone: string
 }
@@ -22,7 +23,7 @@ export const UserList = () => {
         {
             id: '',
             name: '',
-            age: 0,
+            age: '',
             email: '',
             phone: ''
         }
@@ -69,7 +70,6 @@ export const UserList = () => {
                 setCurrentUser({
                     id: '',
                     name: '',
-                    //@ts-ignore
                     age: '',
                     email: '',
                     phone: ''
@@ -108,8 +108,6 @@ export const UserList = () => {
             default:
                 break;
         }
-        console.log(currentUser);
-
     }
 
     return (
@@ -122,7 +120,10 @@ export const UserList = () => {
                             <Button
                                 variant='success'
                                 size='sm'
-                                onClick={() => handleClick('CREATE')}>Agregar Usuario</Button>
+                                onClick={() => handleClick('CREATE')}>
+                                    <BsFillPersonPlusFill />&nbsp;
+                                    Agregar Usuario
+                                </Button>
                         </div>
                         <Table striped>
                             <thead>
@@ -144,9 +145,18 @@ export const UserList = () => {
                                         {/* <td>{user.email}</td>
                                         <td>{user.phone}</td> */}
                                         <td className='text-end'>
-                                            <Link to={'/user/' + user.id} className="btn btn-sm btn-info">Mostrar</Link>
-                                            <Button onClick={() => handleClick('EDIT', user.id)} variant="warning" size="sm" className="ms-1">Editar</Button>
-                                            <Button onClick={() => handleClick('DELETE', user.id)} variant="danger" size="sm" className="ms-1">Eliminar</Button>
+                                            <Link to={'/user/' + user.id} className="btn btn-sm btn-info">
+                                            <BsFillEyeFill />&nbsp;
+                                                Mostrar
+                                            </Link>
+                                            <Button onClick={() => handleClick('EDIT', user.id)} variant="warning" size="sm" className="ms-1">
+                                            <BsPencilFill />&nbsp;
+                                                Editar
+                                            </Button>
+                                            <Button onClick={() => handleClick('DELETE', user.id)} variant="danger" size="sm" className="ms-1">
+                                                <BsFillTrashFill />&nbsp;
+                                                Eliminar
+                                            </Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -165,7 +175,7 @@ export const UserList = () => {
 
                                     <Form.Group className="mb-3" controlId="formAge">
                                         <Form.Label>Edad</Form.Label>
-                                        <Form.Control type="number" placeholder="Edad" value={currentUser.age} onChange={handleChange} />
+                                        <Form.Control type="text" placeholder="Edad" value={currentUser.age} onChange={handleChange} />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formEmail">
@@ -180,12 +190,13 @@ export const UserList = () => {
 
                                     <div className="d-flex justify-content-between">
                                         <Button variant='danger' size="sm" onClick={() => handleClick('CANCEL')}>
+                                            <BsFillXCircleFill />&nbsp;
                                             Cancelar
                                         </Button>
                                         <Button variant="primary" size="sm" type="submit">
+                                            <BsCheckCircleFill />&nbsp;
                                             Guardar
                                         </Button>
-                                        
                                     </div>
                                 </Form>
                             </div>

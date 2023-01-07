@@ -4,6 +4,7 @@ import { UserDetails } from '../components/UserDetails';
 import { data } from '../data/users';
 
 
+
 export const UserShow = () => {
     const { user_id } = useParams();
     const user = data.filter(user => user.id === user_id)[0];
