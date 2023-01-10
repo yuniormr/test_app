@@ -31,21 +31,45 @@ export const UserList = () => {
 
     const [formVisible, setFormVisible] = useState(false);
     const [formAction, setFormAction] = useState<FormActionType>();
+    const [formErrors, setFormErrors] = useState<string[]>([]);
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
-        if (currentUser.id === '' || currentUser.id === undefined) {
-            currentUser.id = uuid();
-            setUsers([...users, currentUser]);
-            setFormVisible(false);
-            console.log(currentUser);
-            
-        } else {
-            let editIndex = users.findIndex(user => (user.id === currentUser.id));
-            users.splice(editIndex, 1, currentUser);
-            setUsers(users);
-            setFormVisible(false);
+        let errors = [];
+        if (currentUser.name === '') {
+            // setFormErrors(formErrors => [...formErrors, 'El campo Nombre no puede estar vacio']);
+            errors.push('El campo Nombre no puede estar vacio');
         }
+        if (currentUser.age === '') {
+            // setFormErrors(formErrors => [...formErrors, 'El campo Edad no puede estar vacio']);
+            errors.push('El campo Edad no puede estar vacio');
+        }
+        if (currentUser.email === '') {
+            // setFormErrors(formErrors => [...formErrors, 'El campo Correo no puede estar vacio']);
+            errors.push('El campo Correo no puede estar vacio');
+        }
+        if (currentUser.phone === '') {
+            // setFormErrors(formErrors => [...formErrors, 'El campo Telefono no puede estar vacio']);
+            errors.push('El campo Telefono no puede estar vacio');
+        }
+        setFormErrors(errors);
+
+        if (errors.length === 0) {
+            setFormErrors([]);
+            if (currentUser.id === '' || currentUser.id === undefined) {
+                currentUser.id = uuid();
+                setUsers([...users, currentUser]);
+                setFormVisible(false);
+                console.log(currentUser);
+
+            } else {
+                let editIndex = users.findIndex(user => (user.id === currentUser.id));
+                users.splice(editIndex, 1, currentUser);
+                setUsers(users);
+                setFormVisible(false);
+            }
+        }
+
     }
 
     function handleClick(action: string, id?: string) {
@@ -169,6 +193,14 @@ export const UserList = () => {
                             <div className="">
                                 <h3 className="text-center text-primary">{ formAction === 'NEW' ? 'Agregar ' : 'Editar '} Usuario</h3>
                                 <hr/>
+                                <div className="text-danger">
+                                    <ul>
+                                        { formErrors?.map((error, index) => (
+                                            <li key={index}>{error}</li>
+                                        )) }
+
+                                    </ul>
+                                </div>
                                 <Form onSubmit={(e) => handleSubmit(e)}>
                                     <div className="row">
                                         <div className="col-md-6">
