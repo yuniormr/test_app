@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -30,7 +30,7 @@ export const UserList = () => {
     );
 
     const [formVisible, setFormVisible] = useState(false);
-    const [formAction, setFormAction] = useState<FormActionType>()
+    const [formAction, setFormAction] = useState<FormActionType>();
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
@@ -91,19 +91,19 @@ export const UserList = () => {
     function handleChange(e: any) {
         switch (e.target.id) {
             case 'formName':
-                setCurrentUser(currentUser => ({ ...currentUser, name: e.target.value }));
+                setCurrentUser({ ...currentUser, name: e.target.value });
                 break;
 
             case 'formAge':
-                setCurrentUser(currentUser => ({ ...currentUser, age: e.target.value }));
+                setCurrentUser({ ...currentUser, age: e.target.value });
                 break;
 
             case 'formEmail':
-                setCurrentUser(currentUser => ({ ...currentUser, email: e.target.value }));
+                setCurrentUser({ ...currentUser, email: e.target.value });
                 break;
 
             case 'formPhone':
-                setCurrentUser(currentUser => ({ ...currentUser, phone: e.target.value }));
+                setCurrentUser({ ...currentUser, phone: e.target.value });
                 break;
 
             default:
@@ -167,28 +167,37 @@ export const UserList = () => {
                     <div className={formVisible ? 'mx-5 my-4 border border-secondary border-2 rounded p-2 mb-5 bg-secondary bg-opacity-25 ' : 'd-none'}>
                         <div className="row ">
                             <div className="">
-                                <h3 className="text-center">{ formAction === 'NEW' ? 'Agregar ' : 'Editar '} Usuario</h3>
+                                <h3 className="text-center text-primary">{ formAction === 'NEW' ? 'Agregar ' : 'Editar '} Usuario</h3>
+                                <hr/>
                                 <Form onSubmit={(e) => handleSubmit(e)}>
-                                    <Form.Group className="mb-3" controlId="formName">
-                                        <Form.Label>Name</Form.Label>
-                                        <Form.Control type="text" placeholder="Nombre" value={currentUser.name} onChange={handleChange} />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3" controlId="formAge">
-                                        <Form.Label>Edad</Form.Label>
-                                        <Form.Control type="text" placeholder="Edad" value={currentUser.age} onChange={handleChange} />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3" controlId="formEmail">
-                                        <Form.Label>Correo</Form.Label>
-                                        <Form.Control type="email" placeholder="Correo" value={currentUser.email} onChange={handleChange} />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3" controlId="formPhone">
-                                        <Form.Label>Teléfono</Form.Label>
-                                        <Form.Control type="text" placeholder="Teléfono" value={currentUser.phone} onChange={handleChange} />
-                                    </Form.Group>
-
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <Form.Group className="mb-3" controlId="formName">
+                                                <Form.Label>Name</Form.Label>
+                                                <Form.Control type="text" placeholder="Nombre" value={currentUser.name} onChange={handleChange} />
+                                            </Form.Group>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <Form.Group className="mb-3" controlId="formAge">
+                                                <Form.Label>Edad</Form.Label>
+                                                <Form.Control type="text" placeholder="Edad" value={currentUser.age} onChange={handleChange} />
+                                            </Form.Group>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <Form.Group className="mb-3" controlId="formEmail">
+                                                <Form.Label>Correo</Form.Label>
+                                                <Form.Control type="email" placeholder="Correo" value={currentUser.email} onChange={handleChange} />
+                                            </Form.Group>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <Form.Group className="mb-3" controlId="formPhone">
+                                                <Form.Label>Teléfono</Form.Label>
+                                                <Form.Control type="text" placeholder="Teléfono" value={currentUser.phone} onChange={handleChange} />
+                                            </Form.Group>
+                                        </div>
+                                    </div>
                                     <div className="d-flex justify-content-between">
                                         <Button variant='danger' size="sm" onClick={() => handleClick('CANCEL')}>
                                             <BsFillXCircleFill />&nbsp;
